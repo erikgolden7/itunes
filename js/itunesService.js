@@ -6,12 +6,18 @@ angular.module('itunes').service('itunesService', function($http, $q){
   //https://itunes.apple.com/search?term=' + artist + '&callback=JSON_CALLBACK'
   //Note that in the above line, artist is the parameter being passed in. 
   //You can return the http request or you can make your own promise in order to manipulate the data before you resolve it.
-
-    //Code here
-    
-
-
-
+	
+	this.getData = function(){
+		var deferred = $q.defer();
+		var promise = $http({
+			method: 'GET',
+			url: 'https://itunes.apple.com/search?term=' + artist + '&callback=JSON_CALLBACK'
+		}).then(function(response) {
+				var parsedResponse = response.data.data
+				deferred.resolve(parsedResponse)
+			});
+			return deferred.promise;
+	};
 
     // Go to the next step in the README (Tie in your controller). You will come back to these instructions shortly.
     // 
